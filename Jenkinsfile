@@ -17,11 +17,10 @@ pipeline {
 
         stage('Source Composition Analysis'){
             steps{
-                sh 'rm owasp* || true'
-                sh 'wget https://raw.githubusercontent.com/devopssecure/webapp/master/owasp-dependency-check.sh'
-                sh 'chmod +x owasp-dependency-check.sh'
-                sh 'bash owasp-dependency-check.sh'
-                sh 'cat /report/dependency-check-report.json'
+                sh 'rm results.txt || true'
+                sh 'pip install safety'
+                sh 'safety check -r requirements.txt > results.txt'
+                sh 'cat results.txt'
             }
         }
 
