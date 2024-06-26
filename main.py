@@ -4,6 +4,8 @@ import os.path
 from pwinput import pwinput
 import string
 import tabulate  # pretty print, optional dependency
+import psycopg2
+
 
 ALPHABET = string.ascii_letters + string.digits
 
@@ -339,3 +341,25 @@ while True:
         print("\n" * 2)
         Continue = input("\n PRESS ENTER TO 'OK' ")
         continue  # skip error , restart the loop ( try: block )
+
+def fetch_user_by_id(user_id):
+    try:
+        connection = psycopg2.connect("dbname=mydatabase user=myuser password=mypassword")
+        cursor = connection.cursor()
+
+        # Vulnerable to SQL injection
+        query = f"SELECT * FROM users WHERE id = {user_id}"
+        cursor.execute(query)
+        user = cursor.fetchone()
+
+        return user
+    except psycopg2.Error as e:
+        print("Error fetching user:", e)
+    finally:
+        if connection:
+            connection.close()
+
+app.get('/search', function(req, res) {
+    var query = req.query.q;
+    res.send('<h1>Search Results for ' + query + '</h1>');
+});
