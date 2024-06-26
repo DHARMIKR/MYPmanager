@@ -35,7 +35,7 @@ pipeline {
         stage('SAST') {
             steps {
                 withSonarQubeEnv('sonar') { // Use the configured SonarQube server
-                    sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=devsecops -Dsonar.sources=. -Dsonar.language=python -Dsonar.sourceEncoding=UTF-8 -Dsonar.login=sqa_b521b254d233f95eafa3f949a296fb4a120923b3"
+                    sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=devsecops1 -Dsonar.sources=. -Dsonar.language=python -Dsonar.sourceEncoding=UTF-8 -Dsonar.login=sqa_b521b254d233f95eafa3f949a296fb4a120923b3"
                 }
             }
         }
