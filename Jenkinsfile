@@ -61,7 +61,7 @@ pipeline {
             steps {
                 script {
                     // Stop the Python server
-                    sh 'pkill -f main.py'
+                    sh 'pkill -f main.py || true'
                 }
             }
         }
