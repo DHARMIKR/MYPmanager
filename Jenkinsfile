@@ -19,7 +19,7 @@ pipeline {
             steps{
                 sh 'rm results.txt || true'
                 sh 'pip install safety'
-                sh 'safety check -r requirements.txt > results.txt'
+                sh 'safety check -r /var/lib/jenkins/workspace/mypmanager/requirements.txt > results.txt'
                 sh 'cat results.txt'
             }
         }
