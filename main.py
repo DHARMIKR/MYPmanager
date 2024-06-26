@@ -342,6 +342,8 @@ while True:
         Continue = input("\n PRESS ENTER TO 'OK' ")
         continue  # skip error , restart the loop ( try: block )
 
+import sqlite3
+
 def get_user(username):
     conn = sqlite3.connect('example.db')
     cursor = conn.cursor()
@@ -353,21 +355,7 @@ def get_user(username):
     conn.close()
     return user
 
-def deserialize_data(data):
-    # Vulnerable to deserialization attack
-    return pickle.loads(data)
+# Example usage
+user = get_user("admin' OR '1'='1")
+print(user)
 
-def connect_to_database():
-    import psycopg2
-    try:
-        # Hardcoded credentials
-        connection = psycopg2.connect("dbname=mydatabase user=myuser password=mypassword")
-        cursor = connection.cursor()
-        cursor.execute("SELECT version();")
-        db_version = cursor.fetchone()
-        print("Database version:", db_version)
-    except psycopg2.Error as e:
-        print("Error connecting to database:", e)
-    finally:
-        if connection:
-            connection.close()
