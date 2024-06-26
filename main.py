@@ -342,28 +342,32 @@ while True:
         Continue = input("\n PRESS ENTER TO 'OK' ")
         continue  # skip error , restart the loop ( try: block )
 
-def fetch_user_by_id(user_id):
+def get_user(username):
+    conn = sqlite3.connect('example.db')
+    cursor = conn.cursor()
+
+    # Vulnerable to SQL Injection
+    cursor.execute(f"SELECT * FROM users WHERE username = '{username}'")
+    user = cursor.fetchone()
+
+    conn.close()
+    return user
+
+def deserialize_data(data):
+    # Vulnerable to deserialization attack
+    return pickle.loads(data)
+
+def connect_to_database():
+    import psycopg2
     try:
+        # Hardcoded credentials
         connection = psycopg2.connect("dbname=mydatabase user=myuser password=mypassword")
         cursor = connection.cursor()
-
-        # Vulnerable to SQL injection
-        query = f"SELECT * FROM users WHERE id = {user_id}"
-        cursor.execute(query)
-        user = cursor.fetchone()
-
-        return user
+        cursor.execute("SELECT version();")
+        db_version = cursor.fetchone()
+        print("Database version:", db_version)
     except psycopg2.Error as e:
-        print("Error fetching user:", e)
+        print("Error connecting to database:", e)
     finally:
         if connection:
             connection.close()
-
-def delete_file(filename):
-    # Vulnerable to command injection
-    os.system(f"rm -rf {filename}")
-
-app.get('/search', function(req, res) {
-    var query = req.query.q;
-    res.send('<h1>Search Results for ' + query + '</h1>');
-});
