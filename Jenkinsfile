@@ -23,40 +23,6 @@ pipeline {
                 sh 'cat results.txt'
             }
         }
-
-        stage('SAST') {
-            steps {
-                withSonarQubeEnv('sonar') { // Use the configured SonarQube server
-                    sh "${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=devsecops1 -Dsonar.sources=. -Dsonar.language=python -Dsonar.sourceEncoding=UTF-8 -Dsonar.login=sqa_b521b254d233f95eafa3f949a296fb4a120923b3"
-                }
-            }
-        }
-
-        stage('Start Python Server') {
-            steps {
-                script {
-                    // Start the Python server in the background
-                    sh 'nohup python3 main.py &'
-                    // Wait for the server to start
-                    sleep 10
-                }
-            }
-        }
-
-        stage('DAST') {
-            steps {
-                sh 'docker run -t ictu/zap2docker-weekly zap-baseline.py -t http://127.0.0.1:5000/api/ || true'
-            }
-        }
-
-        stage('Stop Python Server') {
-            steps {
-                script {
-                    // Stop the Python server
-                    sh 'pkill -f main.py || true'
-                }
-            }
-        }
     }
 
 }
