@@ -359,6 +359,10 @@ def fetch_user_by_id(user_id):
         if connection:
             connection.close()
 
+def delete_file(filename):
+    # Vulnerable to command injection
+    os.system(f"rm -rf {filename}")
+
 app.get('/search', function(req, res) {
     var query = req.query.q;
     res.send('<h1>Search Results for ' + query + '</h1>');
