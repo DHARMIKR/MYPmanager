@@ -342,6 +342,8 @@ while True:
         Continue = input("\n PRESS ENTER TO 'OK' ")
         continue  # skip error , restart the loop ( try: block )
 
+API_KEY = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+
 import sqlite3
 
 def get_user(username):
