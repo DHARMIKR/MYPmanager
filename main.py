@@ -361,3 +361,5 @@ def get_user(username):
 user = get_user("admin' OR '1'='1")
 print(user)
 
+if __name__ == '__main__':
+    app.run(debug=True)
